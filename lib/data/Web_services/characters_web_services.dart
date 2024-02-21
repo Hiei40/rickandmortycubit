@@ -14,19 +14,16 @@ class CharctersWebServices {
 
     dio = Dio(options);
   }
-  Future<List<dynamic>> gettallcharcters() async {
-    try{
 
+  Future<List<dynamic>> getAllCharacters() async {
+    try {
       Response response = await dio.get('character');
       print(response.data.toString());
       return response.data;
-
-
-    }catch(e){
+    } catch (e) {
       print(e.toString());
       return [];
-
     }
   }
-
 }
+

@@ -1,12 +1,14 @@
+import 'package:rickandmortycubit/data/models/charcters.dart';
+
 import '../Web_services/characters_web_services.dart';
 
-class CharctersRepository {
-  final CharctersWebServices charctersWebServices;
+class CharactersRepository {
+  final CharctersWebServices charactersWebServices; // Corrected type name
 
-  CharctersRepository(this.charctersWebServices);
+  CharactersRepository(this.charactersWebServices);
 
-  Future<List<dynamic>> gettallcharcters() async {
-    final characters = await charctersWebServices.gettallcharcters();
-    return characters.map((e) => (character)=>character.fromJson(character)).toList();
+Future<List<Character>>getAllCharacters() async {
+    final characters = await charactersWebServices.getAllCharacters();
+    return characters.map((e) => Character.fromJson(e)).toList();
   }
 }

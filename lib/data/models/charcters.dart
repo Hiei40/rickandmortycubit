@@ -38,7 +38,7 @@ class Character {
       origin: Origin.fromJson(json['origin']),
       location: Location.fromJson(json['location']),
       image: json['image'],
-      episodes: List<String>.from(json['episode']),
+      episodes: json['episode'] != null ? List<String>.from(json['episode']) : [],
       url: json['url'],
       created: json['created'],
     );
