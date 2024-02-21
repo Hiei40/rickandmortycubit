@@ -8,17 +8,15 @@ part 'characters_state.dart';
 
 class CharactersCubit extends Cubit<CharactersState> {
   final CharactersRepository charactersRepository;
-  late List<Character> characters; // Declare characters variable
+  late List<Character> characters;
 
   CharactersCubit(this.charactersRepository) : super(CharactersInitial());
 
-  Future<void> getAllCharacters() async {
-    try {
-      final List<Character> loadedCharacters = await charactersRepository.getAllCharacters();
-      characters = loadedCharacters; // Assign loaded characters to the characters variable
-      emit(CharactersLoaded(characters: characters));
-    } catch (error) {
-      // Handle error
-    }
+  Future<List<Character>> getAllCharacters() async {
+    final List<Character> loadedCharacters = await charactersRepository.getAllCharacters();
+    characters = loadedCharacters;
+    emit(CharactersLoaded(characters: characters));
+    this.characters = characters;
+    return characters;
   }
 }
