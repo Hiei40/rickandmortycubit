@@ -8,6 +8,7 @@ import 'package:rickandmortycubit/data/repository/charctersrepository.dart';
 import 'Presentaion/screens/CharcterDetailsScreen.dart';
 import 'Presentaion/screens/Charcters_screen.dart';
 
+
 class AppRouter {
   late CharactersRepository charactersRepository;
   late CharactersCubit charactersCubit;
@@ -20,8 +21,8 @@ class AppRouter {
       case allCharactersScreen: // Corrected variable name and casing
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
-                create: (BuildContext context) => charactersCubit,
-            child: CharctersScreen(),));
+              create: (BuildContext context) => charactersCubit,
+              child: CharctersScreen(),));
       case characterDetailsScreen: // Corrected variable name and casing
         return MaterialPageRoute(
             builder: (_) => const CharctersDetailsScreen());

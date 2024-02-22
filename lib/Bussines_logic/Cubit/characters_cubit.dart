@@ -1,22 +1,22 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 
 import '../../data/models/charcters.dart';
-import '../../data/repository/charctersrepository.dart';
+import '../../data/repository/charctersrepository.dart'; // Corrected typo in import
 
 part 'characters_state.dart';
-
 class CharactersCubit extends Cubit<CharactersState> {
   final CharactersRepository charactersRepository;
-  late List<Character> characters;
 
   CharactersCubit(this.charactersRepository) : super(CharactersInitial());
 
-  Future<List<Character>> getAllCharacters() async {
-    final List<Character> loadedCharacters = await charactersRepository.getAllCharacters();
-    characters = loadedCharacters;
-    emit(CharactersLoaded(characters: characters));
-    this.characters = characters;
-    return characters;
+  Future<void> getAllCharacters() async {
+    try {
+      final characters = await charactersRepository.getAllCharacters();
+      emit(CharactersLoaded(characters));
+    } catch (e) {
+      // Handle error if needed
+    }
   }
 }

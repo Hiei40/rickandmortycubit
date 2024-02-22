@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rickandmortycubit/Constans/my_colors.dart';
-
 import '../../Bussines_logic/Cubit/characters_cubit.dart';
 import '../../data/models/charcters.dart';
 import '../widgets/charcter_item.dart'; // corrected import path
-
-
 class CharctersScreen extends StatefulWidget {
   const CharctersScreen({Key? key}) : super(key: key);
 
@@ -20,16 +17,9 @@ class _CharctersScreenState extends State<CharctersScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCharacters();
+    BlocProvider.of<CharactersCubit>(context).getAllCharacters();
   }
 
-  void _loadCharacters() async {
-    List<Character> characters =
-    await BlocProvider.of<CharactersCubit>(context).getAllCharacters();
-    setState(() {
-      allCharacters = characters;
-    });
-  }
 
   Widget buildBlocWidget() {
     return BlocBuilder<CharactersCubit, CharactersState>(
