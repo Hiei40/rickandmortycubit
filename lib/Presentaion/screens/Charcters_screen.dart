@@ -1,14 +1,94 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rickandmortycubit/Constans/my_colors.dart';
 
-class CharctersScreen extends StatelessWidget {
-  const CharctersScreen({super.key});
+import '../../Bussines_logic/Cubit/characters_cubit.dart';
+import '../../data/models/charcters.dart';
+import '../widgets/charcter_item.dart'; // corrected import path
+
+
+class CharctersScreen extends StatefulWidget {
+  const CharctersScreen({Key? key}) : super(key: key);
+
+  @override
+  State<CharctersScreen> createState() => _CharctersScreenState();
+}
+
+class _CharctersScreenState extends State<CharctersScreen> {
+  late List<Character> allCharacters;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCharacters();
+  }
+
+  void _loadCharacters() async {
+    List<Character> characters =
+    await BlocProvider.of<CharactersCubit>(context).getAllCharacters();
+    setState(() {
+      allCharacters = characters;
+    });
+  }
+
+  Widget buildBlocWidget() {
+    return BlocBuilder<CharactersCubit, CharactersState>(
+      builder: (context, state) {
+        if (state is CharactersLoaded) {
+          allCharacters = state.characters;
+          return buildLoadedListWidgets();
+        } else {
+          return showLoadingIndicator();
+        }
+      },
+    );
+  }
+
+  Widget showLoadingIndicator() {
+    return Center(
+      child: CircularProgressIndicator(
+        color: Mycolors.myYellow,
+      ),
+    );
+  }
+
+  Widget buildLoadedListWidgets() {
+    return SingleChildScrollView(
+      child: Container(
+        color: Mycolors.mygrey,
+        child: buildCharactersList(),
+      ),
+    );
+  }
+
+  Widget buildCharactersList() {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 2 / 3,
+        crossAxisSpacing: 1,
+        mainAxisSpacing: 1,
+      ),
+      shrinkWrap: true,
+      physics: ClampingScrollPhysics(),
+      itemCount: allCharacters.length,
+      itemBuilder: (ctx, index) {
+        return CharcterItem(character: allCharacters[index]);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("hamoKhaled"),
-
-
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Mycolors.myYellow,
+        title: Text(
+          "Characters",
+          style: TextStyle(color: Mycolors.mygrey),
+        ),
+      ),
+      body: buildBlocWidget(),
     );
   }
 }
