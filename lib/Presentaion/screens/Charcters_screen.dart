@@ -4,29 +4,25 @@ import 'package:rickandmortycubit/Constans/my_colors.dart';
 import '../../Bussines_logic/Cubit/characters_cubit.dart';
 import '../../data/models/charcters.dart';
 import '../widgets/charcter_item.dart'; // corrected import path
-class CharctersScreen extends StatefulWidget {
-  const CharctersScreen({Key? key}) : super(key: key);
+class CharactersScreen extends StatefulWidget {
+  const CharactersScreen({Key? key}) : super(key: key);
 
   @override
-  State<CharctersScreen> createState() => _CharctersScreenState();
+  State<CharactersScreen> createState() => _CharactersScreenState();
 }
 
-class _CharctersScreenState extends State<CharctersScreen> {
-  late List<Character> allCharacters;
-
+class _CharactersScreenState extends State<CharactersScreen> {
   @override
   void initState() {
     super.initState();
     BlocProvider.of<CharactersCubit>(context).getAllCharacters();
   }
 
-
   Widget buildBlocWidget() {
     return BlocBuilder<CharactersCubit, CharactersState>(
       builder: (context, state) {
         if (state is CharactersLoaded) {
-          allCharacters = state.characters;
-          return buildLoadedListWidgets();
+          return buildLoadedListWidgets(state.characters);
         } else {
           return showLoadingIndicator();
         }
@@ -42,16 +38,16 @@ class _CharctersScreenState extends State<CharctersScreen> {
     );
   }
 
-  Widget buildLoadedListWidgets() {
+  Widget buildLoadedListWidgets(List<Character> characters) {
     return SingleChildScrollView(
       child: Container(
         color: Mycolors.mygrey,
-        child: buildCharactersList(),
+        child: buildCharactersList(characters),
       ),
     );
   }
 
-  Widget buildCharactersList() {
+  Widget buildCharactersList(List<Character> characters) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -61,9 +57,9 @@ class _CharctersScreenState extends State<CharctersScreen> {
       ),
       shrinkWrap: true,
       physics: ClampingScrollPhysics(),
-      itemCount: allCharacters.length,
+      itemCount: characters.length,
       itemBuilder: (ctx, index) {
-        return CharcterItem(character: allCharacters[index]);
+        return  CharcterItem(character: characters[index]);
       },
     );
   }

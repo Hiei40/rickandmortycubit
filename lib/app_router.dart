@@ -22,7 +22,7 @@ class AppRouter {
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
               create: (BuildContext context) => charactersCubit,
-              child: CharctersScreen(),));
+              child: CharactersScreen(),));
       case characterDetailsScreen: // Corrected variable name and casing
         return MaterialPageRoute(
             builder: (_) => const CharctersDetailsScreen());
