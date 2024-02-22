@@ -16,6 +16,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<CharactersCubit>(context).getAllCharacters();
+
   }
 
   Widget buildBlocWidget() {
@@ -23,6 +24,8 @@ class _CharactersScreenState extends State<CharactersScreen> {
       builder: (context, state) {
         if (state is CharactersLoaded) {
           return buildLoadedListWidgets(state.characters);
+        }else if(state is CharactersFailure){
+          return Center(child: Text(state.failureMessage));
         } else {
           return showLoadingIndicator();
         }
